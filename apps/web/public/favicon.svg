@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hiipoo Birdie">
+  <rect width="64" height="64" rx="14" fill="#111" />
+  <path d="M20 12h24c4.4 0 8 3.6 8 8v24c0 4.4-3.6 8-8 8H20c-4.4 0-8-3.6-8-8V20c0-4.4 3.6-8 8-8Z" fill="#f5f5f7" />
+  <path d="M19 23h26v6H19z" fill="#0071e3" />
+  <path d="M19 34h18v4H19zM19 42h26v4H19z" fill="#1d1d1f" />
+</svg>
