@@ -9,7 +9,8 @@ import {
   Menu,
   ShieldCheck,
   Snowflake,
-  Video
+  Video,
+  X
 } from "lucide-react";
 import {
   capacityOptions,
@@ -30,7 +31,16 @@ function asset(path: string) {
 }
 
 function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const target = document.getElementById(id);
+  if (!target) {
+    return;
+  }
+
+  const headerHeight = document.querySelector(".global-nav")?.getBoundingClientRect().height ?? 0;
+  const subNavHeight = document.querySelector(".sub-nav")?.getBoundingClientRect().height ?? 0;
+  const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerHeight - subNavHeight - 12);
+
+  window.scrollTo({ top, behavior: "smooth" });
 }
 
 function createInitialQuantities() {
@@ -41,7 +51,10 @@ export function App() {
   const [locale, setLocale] = useState<LocaleCode>("en");
   const [orderQuantities, setOrderQuantities] = useState<Record<string, number>>(createInitialQuantities);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
   const content = getLocale(locale);
   const selectedOrderItems = useMemo(
     () => capacityOptions.filter((option) => (orderQuantities[option.capacity] ?? 0) > 0),
@@ -83,6 +96,35 @@ export function App() {
       document.removeEventListener("keydown", closeOnEscape);
     };
   }, [isLanguageOpen]);
+
+  useEffect(() => {
+    if (!isMobileNavOpen) {
+      return;
+    }
+
+    function closeOnOutsidePointer(event: PointerEvent) {
+      const target = event.target as Node;
+      if (mobileMenuRef.current?.contains(target) || mobileMenuButtonRef.current?.contains(target)) {
+        return;
+      }
+      setIsMobileNavOpen(false);
+    }
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsMobileNavOpen(false);
+        mobileMenuButtonRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePointer);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isMobileNavOpen]);
 
   function clampQuantity(nextQuantity: number) {
     return Math.max(0, Math.min(999, Number.isFinite(nextQuantity) ? Math.floor(nextQuantity) : 0));
@@ -126,11 +168,27 @@ export function App() {
     window.location.href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
   }
 
+  function closeMobileNavAndScroll(id: string) {
+    setIsMobileNavOpen(false);
+    window.requestAnimationFrame(() => scrollToSection(id));
+  }
+
   return (
     <main className="site-shell">
       <header className="global-nav" aria-label="Global">
-        <button className="nav-icon-button mobile-only" type="button" aria-label="Open navigation">
-          <Menu size={18} aria-hidden="true" />
+        <button
+          ref={mobileMenuButtonRef}
+          className={isMobileNavOpen ? "nav-icon-button mobile-only active" : "nav-icon-button mobile-only"}
+          type="button"
+          aria-label={isMobileNavOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={isMobileNavOpen}
+          aria-controls="mobile-nav"
+          onClick={() => {
+            setIsMobileNavOpen((open) => !open);
+            setIsLanguageOpen(false);
+          }}
+        >
+          {isMobileNavOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
         </button>
         <button className="wordmark" type="button" onClick={() => scrollToSection("hero")}>
           Hiipoo
@@ -161,7 +219,10 @@ export function App() {
               aria-expanded={isLanguageOpen}
               aria-controls="language-menu"
               aria-haspopup="true"
-              onClick={() => setIsLanguageOpen((open) => !open)}
+              onClick={() => {
+                setIsLanguageOpen((open) => !open);
+                setIsMobileNavOpen(false);
+              }}
             >
               <Globe2 size={16} aria-hidden="true" />
             </button>
@@ -190,6 +251,26 @@ export function App() {
           </div>
         </div>
       </header>
+
+      {isMobileNavOpen ? (
+        <nav className="mobile-nav-panel" id="mobile-nav" ref={mobileMenuRef} aria-label="Mobile primary">
+          <button type="button" onClick={() => closeMobileNavAndScroll("hero")}>
+            {content.nav.product}
+          </button>
+          <button type="button" onClick={() => closeMobileNavAndScroll("workflow")}>
+            {content.nav.workflow}
+          </button>
+          <button type="button" onClick={() => closeMobileNavAndScroll("specs")}>
+            {content.nav.specs}
+          </button>
+          <button type="button" onClick={() => closeMobileNavAndScroll("capacities")}>
+            {content.nav.capacities}
+          </button>
+          <button type="button" onClick={() => closeMobileNavAndScroll("support")}>
+            {content.nav.support}
+          </button>
+        </nav>
+      ) : null}
 
       <div className="sub-nav">
         <div className="sub-nav-title">{technicalFacts.family}</div>
