@@ -79,22 +79,28 @@ export const capacityOptions = [
     recommendation: "Long-time high-bitrate 4K workflows"
   },
   {
+    capacity: "128GB",
+    type: "TLC",
+    image: "assets/birdie/capacity/128.jpg",
+    recommendation: "Everyday shooting, short 4K clips, and compact kits"
+  },
+  {
     capacity: "160GB",
     type: "P-SLC",
     image: "assets/birdie/capacity/160.jpg",
     recommendation: "Stable sustained writing for professional clips"
   },
   {
-    capacity: "320GB",
-    type: "P-SLC",
-    image: "assets/birdie/capacity/320.jpg",
-    recommendation: "Extended recording with stronger write stability"
-  },
-  {
     capacity: "256GB",
     type: "TLC",
     image: "assets/birdie/capacity/256.jpg",
     recommendation: "Photography, travel, and daily 4K"
+  },
+  {
+    capacity: "320GB",
+    type: "P-SLC",
+    image: "assets/birdie/capacity/320.jpg",
+    recommendation: "Extended recording with stronger write stability"
   },
   {
     capacity: "512GB",

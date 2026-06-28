@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   BadgeCheck,
   Camera,
@@ -6,7 +6,6 @@ import {
   Gauge,
   Globe2,
   HardDrive,
-  Languages,
   Menu,
   Search,
   ShieldCheck,
@@ -37,9 +36,11 @@ function scrollToSection(id: string) {
 export function App() {
   const [locale, setLocale] = useState<LocaleCode>("en");
   const [selectedCapacity, setSelectedCapacity] = useState("512GB");
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
   const content = getLocale(locale);
   const selectedCapacityData = useMemo(
-    () => capacityOptions.find((option) => option.capacity === selectedCapacity) ?? capacityOptions[4],
+    () => capacityOptions.find((option) => option.capacity === selectedCapacity) ?? capacityOptions[5],
     [selectedCapacity]
   );
 
@@ -47,6 +48,33 @@ export function App() {
     document.documentElement.lang = locale;
     document.documentElement.dir = content.direction;
   }, [content.direction, locale]);
+
+  useEffect(() => {
+    if (!isLanguageOpen) {
+      return;
+    }
+
+    function closeOnOutsidePointer(event: PointerEvent) {
+      if (languageMenuRef.current?.contains(event.target as Node)) {
+        return;
+      }
+      setIsLanguageOpen(false);
+    }
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsLanguageOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePointer);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isLanguageOpen]);
 
   return (
     <main className="site-shell">
@@ -78,9 +106,41 @@ export function App() {
           <button className="nav-icon-button desktop-only" type="button" aria-label="Search">
             <Search size={16} aria-hidden="true" />
           </button>
-          <button className="nav-icon-button" type="button" aria-label="Language">
-            <Globe2 size={16} aria-hidden="true" />
-          </button>
+          <div className="language-menu-wrap" ref={languageMenuRef}>
+            <button
+              className={isLanguageOpen ? "nav-icon-button active" : "nav-icon-button"}
+              type="button"
+              aria-label="Select language"
+              aria-expanded={isLanguageOpen}
+              aria-controls="language-menu"
+              aria-haspopup="true"
+              onClick={() => setIsLanguageOpen((open) => !open)}
+            >
+              <Globe2 size={16} aria-hidden="true" />
+            </button>
+            {isLanguageOpen ? (
+              <div className="language-popover" id="language-menu" role="menu" aria-label="Select language">
+                {localeCodes.map((code) => (
+                  <button
+                    className={code === locale ? "language-option active" : "language-option"}
+                    key={code}
+                    type="button"
+                    role="menuitemradio"
+                    aria-checked={code === locale}
+                    lang={code}
+                    dir={locales[code].direction}
+                    onClick={() => {
+                      setLocale(code);
+                      setIsLanguageOpen(false);
+                    }}
+                  >
+                    <span>{locales[code].label}</span>
+                    <small>{code}</small>
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
         </div>
       </header>
 
@@ -159,8 +219,9 @@ export function App() {
         </div>
         <div className="dark-visual">
           <img
-            src={asset("assets/birdie/web/speed-flow.png")}
-            alt="Birdie card moving through a high-speed media workflow"
+            className="workflow-image"
+            src={asset("assets/birdie/details/birdie-4k.jpg")}
+            alt="Stable 4K video recording with a compatible camera workflow"
           />
         </div>
       </section>
@@ -176,7 +237,6 @@ export function App() {
             <img
               src={asset(selectedCapacityData.image)}
               alt={`${selectedCapacityData.capacity} ${technicalFacts.family} card`}
-              loading="lazy"
             />
             <div className="capacity-summary">
               <span>{selectedCapacityData.type}</span>
@@ -194,7 +254,7 @@ export function App() {
                 onClick={() => setSelectedCapacity(option.capacity)}
               >
                 <img src={asset(option.image)} alt="" loading="lazy" />
-                <span>
+                <span className="capacity-chip-copy">
                   <strong>{option.capacity}</strong>
                   <small>{option.type}</small>
                 </span>
@@ -253,11 +313,17 @@ export function App() {
           </p>
         </div>
         <div className="detail-media">
-          <img
-            src={asset("assets/birdie/web/product-light.png")}
-            alt="Birdie CFexpress Type A card on a clean cinematic light trail background"
-            loading="lazy"
-          />
+          <video
+            poster={asset("assets/birdie/motion/birdie-exploded-1.png")}
+            aria-label="Birdie CFexpress Type A card exploded view animation"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src={asset("assets/birdie/motion/birdie-exploded.mp4")} type="video/mp4" />
+          </video>
         </div>
       </section>
 
@@ -285,33 +351,6 @@ export function App() {
           <button className="button-primary" type="button">
             {content.support.cta}
           </button>
-        </div>
-        <div className="locale-panel">
-          <label className="language-select" htmlFor="locale-select">
-            <span className="language-select-heading">
-              <Languages size={22} aria-hidden="true" />
-              <span>Language</span>
-            </span>
-            <select
-              id="locale-select"
-              value={locale}
-              onChange={(event) => setLocale(event.currentTarget.value as LocaleCode)}
-              aria-label="Select language"
-            >
-            {localeCodes.map((code) => (
-              <option key={code} value={code} lang={code} dir={locales[code].direction}>
-                {locales[code].label}
-              </option>
-            ))}
-            </select>
-          </label>
-          <div className="locale-pills" aria-label="Available languages">
-            {localeCodes.map((code) => (
-              <span className={code === locale ? "locale-pill active" : "locale-pill"} key={code} lang={code}>
-                {locales[code].label}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
