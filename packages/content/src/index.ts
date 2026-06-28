@@ -127,9 +127,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "Hiipoo Birdie Series",
-      headline: "High-speed storage for Sony CFexpress Type A cameras.",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "Up to 800MB/s read/write performance, made for high-speed burst shooting, 4K recording, outdoor production, and reliable creator workflows.",
+        "High-speed storage for Sony CFexpress Type A cameras. Up to 800MB/s read/write performance for burst shooting, 4K recording, outdoor production, and reliable creator workflows.",
       ctaPrimary: "Explore Birdie",
       ctaSecondary: "View specs",
       badges: ["For Sony Type A", "Up to 800MB/s", "4K recording", "IP68 protection"]
@@ -206,9 +206,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "Hiipoo Birdie 小鸟系列",
-      headline: "为 Sony CFexpress Type A 相机而生的高速存储。",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "最高 800MB/s 读写性能，面向高速连拍、4K 录制、户外拍摄和创作者素材工作流。",
+        "为 Sony CFexpress Type A 相机而生的高速存储。最高 800MB/s 读写性能，面向高速连拍、4K 录制、户外拍摄和创作者素材工作流。",
       ctaPrimary: "了解 Birdie",
       ctaSecondary: "查看参数",
       badges: ["适配 Sony Type A", "最高 800MB/s", "4K 录制", "IP68 防护"]
@@ -283,9 +283,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "Serie Hiipoo Birdie",
-      headline: "Almacenamiento rápido para cámaras Sony CFexpress Type A.",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "Hasta 800MB/s de lectura y escritura para ráfagas, grabación 4K, producción en exteriores y flujos de trabajo de creadores.",
+        "Almacenamiento rápido para cámaras Sony CFexpress Type A. Hasta 800MB/s de lectura y escritura para ráfagas, grabación 4K y producción en exteriores.",
       ctaPrimary: "Explorar Birdie",
       ctaSecondary: "Ver detalles",
       badges: ["Para Sony Type A", "Hasta 800MB/s", "Grabación 4K", "Protección IP68"]
@@ -360,9 +360,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "Gamme Hiipoo Birdie",
-      headline: "Un stockage rapide pour les appareils Sony CFexpress Type A.",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "Jusqu'à 800MB/s en lecture et écriture pour les rafales, la vidéo 4K, les tournages en extérieur et les flux créatifs.",
+        "Un stockage rapide pour les appareils Sony CFexpress Type A. Jusqu'à 800MB/s en lecture et écriture pour les rafales, la vidéo 4K et les tournages en extérieur.",
       ctaPrimary: "Découvrir Birdie",
       ctaSecondary: "Voir la fiche",
       badges: ["Pour Sony Type A", "Jusqu'à 800MB/s", "Vidéo 4K", "Protection IP68"]
@@ -437,9 +437,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "Hiipoo Birdie Series",
-      headline: "Sony CFexpress Type A ক্যামেরার জন্য দ্রুত স্টোরেজ।",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "সর্বোচ্চ 800MB/s read/write পারফরম্যান্স, burst shooting, 4K recording, outdoor shooting এবং creator workflow-এর জন্য।",
+        "Sony CFexpress Type A camera-এর জন্য high-speed storage. সর্বোচ্চ 800MB/s read/write performance, burst shooting, 4K recording এবং creator workflow-এর জন্য।",
       ctaPrimary: "Birdie দেখুন",
       ctaSecondary: "স্পেকস দেখুন",
       badges: ["Sony Type A", "Up to 800MB/s", "4K recording", "IP68 protection"]
@@ -514,9 +514,9 @@ export const locales: Record<LocaleCode, LocaleContent> = {
     },
     hero: {
       eyebrow: "سلسلة Hiipoo Birdie",
-      headline: "تخزين سريع لكاميرات Sony CFexpress Type A.",
+      headline: "SAMSWEET Birdie CFexpress Type A",
       subheadline:
-        "أداء قراءة وكتابة يصل إلى 800MB/s للتصوير المتتابع، تسجيل 4K، الإنتاج الخارجي، وسير عمل المبدعين.",
+        "تخزين سريع لكاميرات Sony CFexpress Type A. أداء قراءة وكتابة يصل إلى 800MB/s للتصوير المتتابع وتسجيل 4K والإنتاج الخارجي.",
       ctaPrimary: "استكشف Birdie",
       ctaSecondary: "عرض المواصفات",
       badges: ["Sony Type A", "حتى 800MB/s", "تسجيل 4K", "حماية IP68"]

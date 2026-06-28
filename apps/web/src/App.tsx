@@ -109,14 +109,6 @@ export function App() {
           </div>
         </div>
 
-        <div className="hero-visual" aria-label="SAMSWEET Birdie CFexpress Type A card">
-          <img
-            src="/assets/birdie/hero/birdie-hero-angle.png"
-            alt="SAMSWEET Birdie CFexpress Type A memory card angled product render"
-            loading="eager"
-          />
-        </div>
-
         <div className="hero-badges" aria-label="Highlights">
           {content.hero.badges.map((badge) => (
             <span key={badge}>{badge}</span>
@@ -157,14 +149,7 @@ export function App() {
           </div>
         </div>
         <div className="dark-visual">
-          <video
-            src="/assets/birdie/motion/birdie-exploded.mp4"
-            poster="/assets/birdie/motion/birdie-exploded-1.png"
-            muted
-            playsInline
-            autoPlay
-            loop
-          />
+          <img src="/assets/birdie/web/speed-flow.png" alt="Birdie card moving through a high-speed media workflow" />
         </div>
       </section>
 
@@ -210,7 +195,7 @@ export function App() {
 
       <section className="split-feature">
         <div className="split-media">
-          <img src="/assets/birdie/details/birdie-4k.jpg" alt="4K workflow detail for Birdie card" loading="lazy" />
+          <img src="/assets/birdie/web/field-protection.png" alt="Birdie card in an outdoor water and dust protection scene" loading="lazy" />
         </div>
         <div className="split-copy">
           <Video size={28} aria-hidden="true" />
@@ -245,14 +230,14 @@ export function App() {
 
       <section className="detail-tile">
         <div className="detail-copy">
-          <h2>28 x 20 x 2.7mm. Type A by design.</h2>
+          <h2>A compact card for fast creator days.</h2>
           <p>
-            The compact body, contact layout, and CFexpress Type A form factor are presented plainly so buyers can
-            distinguish Birdie from SD cards before they choose capacity.
+            A clean Type A body, broad capacity range, and resilient field posture help buyers understand Birdie as a
+            creator storage card before they choose the exact version.
           </p>
         </div>
         <div className="detail-media">
-          <img src="/assets/birdie/details/birdie-dimensions.jpg" alt="Birdie card dimensions and front-back detail" loading="lazy" />
+          <img src="/assets/birdie/web/product-light.png" alt="Birdie CFexpress Type A card on a clean cinematic light trail background" loading="lazy" />
         </div>
       </section>
 
