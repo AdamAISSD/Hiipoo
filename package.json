@@ -1,0 +1,15 @@
+{
+  "name": "hiipoo-product-site",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "build": "pnpm --filter @hiipoo/web build",
+    "dev": "pnpm --filter @hiipoo/web dev",
+    "preview": "pnpm --filter @hiipoo/web preview",
+    "typecheck": "pnpm --filter @hiipoo/web typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
