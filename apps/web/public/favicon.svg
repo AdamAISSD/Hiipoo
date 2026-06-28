@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hiipoo Birdie">
-  <rect width="64" height="64" rx="14" fill="#111" />
-  <path d="M20 12h24c4.4 0 8 3.6 8 8v24c0 4.4-3.6 8-8 8H20c-4.4 0-8-3.6-8-8V20c0-4.4 3.6-8 8-8Z" fill="#f5f5f7" />
-  <path d="M19 23h26v6H19z" fill="#0071e3" />
-  <path d="M19 34h18v4H19zM19 42h26v4H19z" fill="#1d1d1f" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hiipoo storage card">
+  <rect width="64" height="64" rx="14" fill="#0b0d10" />
+  <path d="M19 8h26c4.4 0 8 3.6 8 8v32c0 4.4-3.6 8-8 8H19c-4.4 0-8-3.6-8-8V16c0-4.4 3.6-8 8-8Z" fill="#f5f5f7" />
+  <path d="M19 13h26c1.7 0 3 1.3 3 3v32c0 1.7-1.3 3-3 3H19c-1.7 0-3-1.3-3-3V16c0-1.7 1.3-3 3-3Z" fill="#1d1d1f" />
+  <path d="M22 18h7v28h-7V18Zm13 0h7v28h-7V35h-6v-7h6V18Z" fill="#37b6ff" />
+  <path d="M20 52h24v4H20v-4Z" fill="#c99a36" />
+  <path d="M23 52h3v4h-3v-4Zm6 0h3v4h-3v-4Zm6 0h3v4h-3v-4Zm6 0h3v4h-3v-4Z" fill="#ffe08a" />
 </svg>
