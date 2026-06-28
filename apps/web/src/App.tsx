@@ -7,7 +7,6 @@ import {
   Globe2,
   HardDrive,
   Menu,
-  Search,
   ShieldCheck,
   Snowflake,
   Video
@@ -24,6 +23,7 @@ import {
 
 const localeCodes = Object.keys(locales) as LocaleCode[];
 const basePath = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const whatsappPhone = "8619064025220";
 
 function asset(path: string) {
   return `${basePath}${path.replace(/^\/+/, "")}`;
@@ -33,15 +33,23 @@ function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function createInitialQuantities() {
+  return Object.fromEntries(capacityOptions.map((option) => [option.capacity, 0])) as Record<string, number>;
+}
+
 export function App() {
   const [locale, setLocale] = useState<LocaleCode>("en");
-  const [selectedCapacity, setSelectedCapacity] = useState("512GB");
+  const [orderQuantities, setOrderQuantities] = useState<Record<string, number>>(createInitialQuantities);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const languageMenuRef = useRef<HTMLDivElement>(null);
   const content = getLocale(locale);
-  const selectedCapacityData = useMemo(
-    () => capacityOptions.find((option) => option.capacity === selectedCapacity) ?? capacityOptions[5],
-    [selectedCapacity]
+  const selectedOrderItems = useMemo(
+    () => capacityOptions.filter((option) => (orderQuantities[option.capacity] ?? 0) > 0),
+    [orderQuantities]
+  );
+  const totalOrderQuantity = useMemo(
+    () => selectedOrderItems.reduce((total, option) => total + (orderQuantities[option.capacity] ?? 0), 0),
+    [orderQuantities, selectedOrderItems]
   );
 
   useEffect(() => {
@@ -76,6 +84,48 @@ export function App() {
     };
   }, [isLanguageOpen]);
 
+  function clampQuantity(nextQuantity: number) {
+    return Math.max(0, Math.min(999, Number.isFinite(nextQuantity) ? Math.floor(nextQuantity) : 0));
+  }
+
+  function updateOrderQuantity(capacity: string, nextQuantity: number) {
+    setOrderQuantities((current) => ({
+      ...current,
+      [capacity]: clampQuantity(nextQuantity)
+    }));
+  }
+
+  function changeOrderQuantity(capacity: string, delta: number) {
+    setOrderQuantities((current) => ({
+      ...current,
+      [capacity]: clampQuantity((current[capacity] ?? 0) + delta)
+    }));
+  }
+
+  function submitWhatsAppOrder() {
+    if (totalOrderQuantity === 0) {
+      return;
+    }
+
+    const lines = selectedOrderItems.map((option) => {
+      const quantity = orderQuantities[option.capacity] ?? 0;
+      return `- ${option.capacity} ${option.type}: ${quantity} pcs`;
+    });
+    const message = [
+      "Hi, I want to place a Hiipoo Birdie CFexpress Type A order.",
+      "",
+      "Order details:",
+      ...lines,
+      "",
+      `Total quantity: ${totalOrderQuantity} pcs`,
+      `Page language: ${locales[locale].label}`,
+      "",
+      "Please confirm price, stock, shipping, and warranty details."
+    ].join("\n");
+
+    window.location.href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+  }
+
   return (
     <main className="site-shell">
       <header className="global-nav" aria-label="Global">
@@ -103,9 +153,6 @@ export function App() {
           </button>
         </nav>
         <div className="nav-actions">
-          <button className="nav-icon-button desktop-only" type="button" aria-label="Search">
-            <Search size={16} aria-hidden="true" />
-          </button>
           <div className="language-menu-wrap" ref={languageMenuRef}>
             <button
               className={isLanguageOpen ? "nav-icon-button active" : "nav-icon-button"}
@@ -203,6 +250,30 @@ export function App() {
         </div>
       </section>
 
+      <section className="detail-tile">
+        <div className="detail-copy">
+          <h2>800MB/s-class storage for Sony Type A creators.</h2>
+          <p>
+            Built for Sony CFexpress Type A cameras and compatible video devices, Birdie supports high-speed
+            continuous shooting, 4K recording, and faster file transfer. IP68 protection, X-ray resistance, wide
+            temperature tolerance, and a 3-year replacement service help reduce purchase concerns.
+          </p>
+        </div>
+        <div className="detail-media">
+          <video
+            poster={asset("assets/birdie/motion/birdie-exploded-1.png")}
+            aria-label="Birdie CFexpress Type A card exploded view animation"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src={asset("assets/birdie/motion/birdie-exploded.mp4")} type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
       <section className="dark-product-tile" id="workflow">
         <div className="dark-copy">
           <p className="eyebrow on-dark">{technicalFacts.category}</p>
@@ -224,45 +295,6 @@ export function App() {
             alt="Stable 4K video recording with a compatible camera workflow"
           />
         </div>
-      </section>
-
-      <section className="capacity-section" id="capacities">
-        <div className="capacity-intro">
-          <h2>{content.capacity.title}</h2>
-          <p>{content.capacity.body}</p>
-        </div>
-
-        <div className="capacity-layout">
-          <div className="capacity-showcase">
-            <img
-              src={asset(selectedCapacityData.image)}
-              alt={`${selectedCapacityData.capacity} ${technicalFacts.family} card`}
-            />
-            <div className="capacity-summary">
-              <span>{selectedCapacityData.type}</span>
-              <strong>{selectedCapacityData.capacity}</strong>
-              <p>{selectedCapacityData.recommendation}</p>
-            </div>
-          </div>
-
-          <div className="capacity-options" aria-label="Capacity options">
-            {capacityOptions.map((option) => (
-              <button
-                className={option.capacity === selectedCapacity ? "capacity-chip selected" : "capacity-chip"}
-                key={option.capacity}
-                type="button"
-                onClick={() => setSelectedCapacity(option.capacity)}
-              >
-                <img src={asset(option.image)} alt="" loading="lazy" />
-                <span className="capacity-chip-copy">
-                  <strong>{option.capacity}</strong>
-                  <small>{option.type}</small>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-        <p className="fine-note">{content.capacity.note}</p>
       </section>
 
       <section className="split-feature">
@@ -304,29 +336,6 @@ export function App() {
         </div>
       </section>
 
-      <section className="detail-tile">
-        <div className="detail-copy">
-          <h2>A compact card for fast creator days.</h2>
-          <p>
-            A clean Type A body, broad capacity range, and resilient field posture help buyers understand Birdie as a
-            creator storage card before they choose the exact version.
-          </p>
-        </div>
-        <div className="detail-media">
-          <video
-            poster={asset("assets/birdie/motion/birdie-exploded-1.png")}
-            aria-label="Birdie CFexpress Type A card exploded view animation"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          >
-            <source src={asset("assets/birdie/motion/birdie-exploded.mp4")} type="video/mp4" />
-          </video>
-        </div>
-      </section>
-
       <section className="spec-section" id="specs">
         <div className="section-heading">
           <h2>{technicalFacts.model}</h2>
@@ -342,6 +351,74 @@ export function App() {
           <SpecItem label="Storage temp." value={technicalFacts.storageTemperature} icon={<Snowflake size={22} />} />
           <SpecItem label="Protection" value={technicalFacts.protection} icon={<ShieldCheck size={22} />} />
         </div>
+      </section>
+
+      <section className="capacity-section order-section" id="capacities">
+        <div className="capacity-intro">
+          <h2>Build your WhatsApp order.</h2>
+          <p>
+            Set quantities for each capacity. Submitting opens WhatsApp with your order information filled in for
+            manual confirmation.
+          </p>
+        </div>
+
+        <div className="order-grid" aria-label="Capacity order quantities">
+          {capacityOptions.map((option) => {
+            const quantity = orderQuantities[option.capacity] ?? 0;
+
+            return (
+              <article className="order-card" key={option.capacity}>
+                <img src={asset(option.image)} alt={`${option.capacity} ${technicalFacts.family} card`} loading="lazy" />
+                <div className="order-card-copy">
+                  <span>{option.type}</span>
+                  <strong>{option.capacity}</strong>
+                  <p>{option.recommendation}</p>
+                </div>
+                <div className="quantity-stepper" aria-label={`${option.capacity} quantity`}>
+                  <button type="button" onClick={() => changeOrderQuantity(option.capacity, -1)}>
+                    -1
+                  </button>
+                  <input
+                    type="number"
+                    min="0"
+                    max="999"
+                    inputMode="numeric"
+                    value={quantity}
+                    aria-label={`${option.capacity} order quantity`}
+                    onChange={(event) => updateOrderQuantity(option.capacity, Number(event.currentTarget.value))}
+                  />
+                  <button type="button" onClick={() => changeOrderQuantity(option.capacity, 1)}>
+                    +1
+                  </button>
+                  <button type="button" onClick={() => changeOrderQuantity(option.capacity, 10)}>
+                    +10
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+
+          <article className="order-card order-submit-card">
+            <div>
+              <span>WhatsApp order</span>
+              <strong>{totalOrderQuantity > 0 ? `${totalOrderQuantity} pcs selected` : "Select quantity"}</strong>
+              <p>
+                Your message will be sent to +86 19064025220 for price, stock, shipping, and warranty confirmation.
+              </p>
+            </div>
+            <button
+              className="button-primary order-submit-button"
+              type="button"
+              disabled={totalOrderQuantity === 0}
+              onClick={submitWhatsAppOrder}
+            >
+              Submit order
+            </button>
+          </article>
+        </div>
+        <p className="fine-note">
+          This static website does not process payment. WhatsApp submission only prepares an order inquiry draft.
+        </p>
       </section>
 
       <section className="support-section" id="support">

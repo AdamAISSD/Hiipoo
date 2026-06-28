@@ -293,11 +293,21 @@ video {
   color: var(--primary);
 }
 
+.button-primary:disabled {
+  border-color: var(--chip-translucent);
+  background: var(--chip-translucent);
+  color: var(--ink-muted-48);
+  cursor: not-allowed;
+  transform: none;
+}
+
 .button-primary:focus-visible,
 .button-secondary:focus-visible,
 .capacity-chip:focus-visible,
 .nav-icon-button:focus-visible,
-.language-option:focus-visible {
+.language-option:focus-visible,
+.quantity-stepper button:focus-visible,
+.quantity-stepper input:focus-visible {
   outline: 2px solid var(--primary-focus);
   outline-offset: 3px;
 }
@@ -731,6 +741,127 @@ h1 {
   text-align: center;
 }
 
+.order-section {
+  background: var(--canvas-parchment);
+}
+
+.order-grid {
+  display: grid;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  gap: 14px;
+}
+
+.order-card {
+  display: grid;
+  min-height: 132px;
+  grid-template-columns: 88px minmax(0, 1fr) minmax(280px, 0.78fr);
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.order-card img {
+  width: 76px;
+  height: 76px;
+  border-radius: 6px;
+  background: var(--surface-pearl);
+  object-fit: contain;
+}
+
+.order-card-copy {
+  min-width: 0;
+}
+
+.order-card-copy span,
+.order-submit-card span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink-muted-48);
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+}
+
+.order-card-copy strong,
+.order-submit-card strong {
+  display: block;
+  font-family: "SF Pro Display", system-ui, -apple-system, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+
+.order-card-copy p,
+.order-submit-card p {
+  margin: 8px 0 0;
+  color: var(--ink-muted-80);
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+}
+
+.quantity-stepper {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 52px minmax(70px, 1fr) 52px 58px;
+  gap: 8px;
+  align-items: center;
+}
+
+.quantity-stepper button,
+.quantity-stepper input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  background: var(--surface-pearl);
+  color: var(--ink);
+  text-align: center;
+}
+
+.quantity-stepper button {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+}
+
+.quantity-stepper button:hover {
+  border-color: var(--primary-focus);
+  color: var(--primary);
+}
+
+.quantity-stepper input {
+  padding: 0 8px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+}
+
+.quantity-stepper input::-webkit-outer-spin-button,
+.quantity-stepper input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.order-submit-card {
+  grid-template-columns: minmax(0, 1fr) minmax(180px, auto);
+  border-color: rgba(0, 113, 227, 0.32);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+}
+
+.order-submit-button {
+  width: 100%;
+  align-self: center;
+}
+
 .split-feature {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -995,6 +1126,19 @@ h1 {
     text-align: center;
   }
 
+  .order-card {
+    grid-template-columns: 80px minmax(0, 1fr);
+  }
+
+  .quantity-stepper,
+  .order-submit-button {
+    grid-column: 1 / -1;
+  }
+
+  .order-submit-card {
+    grid-template-columns: 1fr;
+  }
+
   .spec-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1136,6 +1280,26 @@ h1 {
     height: 72px;
     flex-basis: 72px;
   }
+
+  .order-card {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .order-card img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .quantity-stepper {
+    grid-template-columns: 48px minmax(54px, 1fr) 48px 52px;
+    gap: 6px;
+  }
+
+  .quantity-stepper button,
+  .quantity-stepper input {
+    min-height: 40px;
+  }
 }
 
 @media (max-width: 419px) {
@@ -1159,6 +1323,19 @@ h1 {
 
   .hero-badges span {
     flex: 1 1 100%;
+  }
+
+  .order-card {
+    grid-template-columns: 1fr;
+  }
+
+  .order-card img {
+    justify-self: center;
+  }
+
+  .order-card-copy,
+  .order-submit-card {
+    text-align: center;
   }
 }
 
