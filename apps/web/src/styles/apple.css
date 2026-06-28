@@ -130,8 +130,7 @@ video {
 .nav-icon-button:active,
 .button-primary:active,
 .button-secondary:active,
-.capacity-chip:active,
-.locale-chip:active {
+.capacity-chip:active {
   transform: scale(0.95);
 }
 
@@ -214,7 +213,7 @@ video {
 .button-primary:focus-visible,
 .button-secondary:focus-visible,
 .capacity-chip:focus-visible,
-.locale-chip:focus-visible {
+.language-select select:focus-visible {
   outline: 2px solid var(--primary-focus);
   outline-offset: 3px;
 }
@@ -227,7 +226,6 @@ video {
   padding: 80px 32px 48px;
   place-items: center start;
   background-color: var(--surface-black);
-  background-image: url("/assets/birdie/web/creator-flow.png");
   background-position: center;
   background-size: cover;
   color: #ffffff;
@@ -802,25 +800,57 @@ h1 {
   color: var(--ink);
 }
 
-.locale-panel-title {
+.language-select {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.language-select-heading {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 16px;
   font-size: 17px;
   font-weight: 600;
   line-height: 1.24;
   letter-spacing: -0.374px;
 }
 
-.locale-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+.language-select select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 42px 10px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 9999px;
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--primary) 50%) calc(100% - 21px) 18px / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--primary) 50%, transparent 50%) calc(100% - 15px) 18px / 6px 6px no-repeat,
+    var(--canvas);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
 }
 
-.locale-chip {
-  min-height: 44px;
+:dir(rtl) .language-select select {
+  padding-right: 16px;
+  padding-left: 42px;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--primary) 50%) 15px 18px / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--primary) 50%, transparent 50%) 21px 18px / 6px 6px no-repeat,
+    var(--canvas);
+}
+
+.locale-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.locale-pill {
+  min-height: 32px;
   padding: 8px 14px;
   border: 1px solid var(--hairline);
   border-radius: 9999px;
@@ -831,7 +861,7 @@ h1 {
   letter-spacing: -0.224px;
 }
 
-.locale-chip.active {
+.locale-pill.active {
   border-color: var(--primary);
   background: var(--primary);
   color: #ffffff;

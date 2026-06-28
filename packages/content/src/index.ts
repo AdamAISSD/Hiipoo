@@ -75,37 +75,37 @@ export const capacityOptions = [
   {
     capacity: "80GB",
     type: "P-SLC",
-    image: "/assets/birdie/capacity/80.jpg",
+    image: "assets/birdie/capacity/80.jpg",
     recommendation: "Long-time high-bitrate 4K workflows"
   },
   {
     capacity: "160GB",
     type: "P-SLC",
-    image: "/assets/birdie/capacity/160.jpg",
+    image: "assets/birdie/capacity/160.jpg",
     recommendation: "Stable sustained writing for professional clips"
   },
   {
     capacity: "320GB",
     type: "P-SLC",
-    image: "/assets/birdie/capacity/320.jpg",
+    image: "assets/birdie/capacity/320.jpg",
     recommendation: "Extended recording with stronger write stability"
   },
   {
     capacity: "256GB",
     type: "TLC",
-    image: "/assets/birdie/capacity/256.jpg",
+    image: "assets/birdie/capacity/256.jpg",
     recommendation: "Photography, travel, and daily 4K"
   },
   {
     capacity: "512GB",
     type: "TLC",
-    image: "/assets/birdie/capacity/512.jpg",
+    image: "assets/birdie/capacity/512.jpg",
     recommendation: "Wedding, commercial, and short-video projects"
   },
   {
     capacity: "1TB",
     type: "TLC",
-    image: "/assets/birdie/capacity/1t.jpg",
+    image: "assets/birdie/capacity/1t.jpg",
     recommendation: "Large creator libraries and longer field days"
   }
 ];

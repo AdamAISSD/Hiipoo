@@ -24,6 +24,11 @@ import {
 } from "@hiipoo/content";
 
 const localeCodes = Object.keys(locales) as LocaleCode[];
+const basePath = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+
+function asset(path: string) {
+  return `${basePath}${path.replace(/^\/+/, "")}`;
+}
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -94,7 +99,11 @@ export function App() {
         </div>
       </div>
 
-      <section className="hero-tile" id="hero">
+      <section
+        className="hero-tile"
+        id="hero"
+        style={{ backgroundImage: `url("${asset("assets/birdie/web/creator-flow.png")}")` }}
+      >
         <div className="hero-copy">
           <p className="eyebrow">{content.hero.eyebrow}</p>
           <h1>{content.hero.headline}</h1>
@@ -149,7 +158,10 @@ export function App() {
           </div>
         </div>
         <div className="dark-visual">
-          <img src="/assets/birdie/web/speed-flow.png" alt="Birdie card moving through a high-speed media workflow" />
+          <img
+            src={asset("assets/birdie/web/speed-flow.png")}
+            alt="Birdie card moving through a high-speed media workflow"
+          />
         </div>
       </section>
 
@@ -162,7 +174,7 @@ export function App() {
         <div className="capacity-layout">
           <div className="capacity-showcase">
             <img
-              src={selectedCapacityData.image}
+              src={asset(selectedCapacityData.image)}
               alt={`${selectedCapacityData.capacity} ${technicalFacts.family} card`}
               loading="lazy"
             />
@@ -181,7 +193,7 @@ export function App() {
                 type="button"
                 onClick={() => setSelectedCapacity(option.capacity)}
               >
-                <img src={option.image} alt="" loading="lazy" />
+                <img src={asset(option.image)} alt="" loading="lazy" />
                 <span>
                   <strong>{option.capacity}</strong>
                   <small>{option.type}</small>
@@ -195,7 +207,11 @@ export function App() {
 
       <section className="split-feature">
         <div className="split-media">
-          <img src="/assets/birdie/web/field-protection.png" alt="Birdie card in an outdoor water and dust protection scene" loading="lazy" />
+          <img
+            src={asset("assets/birdie/web/field-protection.png")}
+            alt="Birdie card in an outdoor water and dust protection scene"
+            loading="lazy"
+          />
         </div>
         <div className="split-copy">
           <Video size={28} aria-hidden="true" />
@@ -237,7 +253,11 @@ export function App() {
           </p>
         </div>
         <div className="detail-media">
-          <img src="/assets/birdie/web/product-light.png" alt="Birdie CFexpress Type A card on a clean cinematic light trail background" loading="lazy" />
+          <img
+            src={asset("assets/birdie/web/product-light.png")}
+            alt="Birdie CFexpress Type A card on a clean cinematic light trail background"
+            loading="lazy"
+          />
         </div>
       </section>
 
@@ -267,21 +287,29 @@ export function App() {
           </button>
         </div>
         <div className="locale-panel">
-          <div className="locale-panel-title">
-            <Languages size={22} aria-hidden="true" />
-            <span>Language</span>
-          </div>
-          <div className="locale-grid">
+          <label className="language-select" htmlFor="locale-select">
+            <span className="language-select-heading">
+              <Languages size={22} aria-hidden="true" />
+              <span>Language</span>
+            </span>
+            <select
+              id="locale-select"
+              value={locale}
+              onChange={(event) => setLocale(event.currentTarget.value as LocaleCode)}
+              aria-label="Select language"
+            >
             {localeCodes.map((code) => (
-              <button
-                className={code === locale ? "locale-chip active" : "locale-chip"}
-                key={code}
-                type="button"
-                lang={code}
-                onClick={() => setLocale(code)}
-              >
+              <option key={code} value={code} lang={code} dir={locales[code].direction}>
                 {locales[code].label}
-              </button>
+              </option>
+            ))}
+            </select>
+          </label>
+          <div className="locale-pills" aria-label="Available languages">
+            {localeCodes.map((code) => (
+              <span className={code === locale ? "locale-pill active" : "locale-pill"} key={code} lang={code}>
+                {locales[code].label}
+              </span>
             ))}
           </div>
         </div>
